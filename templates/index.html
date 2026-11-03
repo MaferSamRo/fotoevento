@@ -3,64 +3,85 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101010">
   <title>FotoEvento | {{ event_name }}</title>
   <style>
-    * { box-sizing: border-box; }
-    body { margin: 0; background: #f7f3fb; color: #28203a; font-family: system-ui, Arial, sans-serif; }
-    header { background: linear-gradient(120deg, #6434b5, #a24fd0); color: white; padding: 38px 18px; text-align: center; }
-    header h1 { margin: 0 0 8px; }
-    header p { margin: 0; }
-    main { max-width: 1050px; margin: 24px auto; padding: 0 16px 40px; }
-    section { background: white; padding: 24px; border-radius: 16px; margin-bottom: 22px; box-shadow: 0 4px 18px #28104712; }
-    input { width: 100%; padding: 12px; margin: 10px 0; border: 1px dashed #9272b8; border-radius: 10px; }
-    button { background: #6434b5; color: white; padding: 13px 22px; border: none; border-radius: 10px; cursor: pointer; font-size: 1rem; }
-    button:disabled { opacity: .65; }
-    .notice { padding: 12px; border-radius: 9px; background: #eee5fa; margin-bottom: 12px; }
-    .notice.error { background: #ffeaef; color: #86152d; }
-    .notice.success { background: #e5f7ed; color: #17613a; }
-    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 12px; }
-    .gallery a { aspect-ratio: 1; display: block; overflow: hidden; border-radius: 10px; }
-    .gallery img { width: 100%; height: 100%; object-fit: cover; }
+    :root { --black:#101010; --charcoal:#353535; --yellow:#f4c542; --cream:#fffaf0; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#f6f3eb; color:var(--black); font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif; }
+    header { background:radial-gradient(circle at 50% 5%,#414141,#111 65%); color:#fff; text-align:center; padding:34px 18px 42px; border-bottom:5px solid var(--yellow); }
+    .logo { width:min(210px,60vw); height:auto; display:block; margin:0 auto 20px; filter:drop-shadow(0 4px 14px #0008); }
+    .eyebrow { color:var(--yellow); text-transform:uppercase; letter-spacing:.19em; font-size:.8rem; font-weight:750; }
+    h1 { font-size:clamp(1.8rem,5vw,3rem); line-height:1.14; max-width:800px; margin:12px auto; }
+    .motto { font-size:clamp(1rem,3vw,1.3rem); margin:12px auto 8px; max-width:600px; }
+    .verse { color:var(--yellow); font-weight:700; margin:0; }
+    main { max-width:1080px; margin:28px auto; padding:0 16px 48px; }
+    section { background:#fff; border-radius:18px; padding:clamp(20px,4vw,32px); margin-bottom:24px; box-shadow:0 8px 30px #00000012; border:1px solid #e8e0cc; }
+    h2 { margin:0 0 10px; font-size:1.5rem; }
+    .accent { width:58px; height:4px; border-radius:10px; background:var(--yellow); margin:0 0 18px; }
+    .muted { color:#5c5c5c; }
+    label { display:block; margin:14px 0 8px; font-weight:650; }
+    input[type=file] { width:100%; border:2px dashed #b6a26c; border-radius:12px; padding:16px; background:var(--cream); }
+    button { display:inline-block; background:var(--yellow); color:#151515; border:0; padding:14px 22px; border-radius:11px; font-size:1rem; font-weight:800; cursor:pointer; margin-top:16px; }
+    button:disabled { opacity:.6; cursor:wait; }
+    .notice { border-radius:10px; padding:12px 14px; margin:12px 0; background:#fff5d5; }
+    .notice.error { background:#ffe7e7; color:#8b1b1b; }
+    .notice.success { background:#e3f7e8; color:#14572b; }
+    .gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:14px; }
+    .gallery a { display:block; aspect-ratio:1; overflow:hidden; border-radius:12px; background:#eaeaea; }
+    .gallery img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .2s; }
+    .gallery a:hover img { transform:scale(1.04); }
+    footer { text-align:center; color:#626262; padding:0 16px 30px; font-size:.9rem; }
+    @media(max-width:520px) { button { width:100%; } .gallery { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; } }
   </style>
 </head>
 <body>
-  <header><h1>📸 FotoEvento</h1><p>Comparte los momentos de {{ event_name }}</p></header>
+  <header>
+    <img class="logo" src="{{ url_for('static', filename='logo-e119.png') }}" alt="Logotipo E11:9, Vive con alegría, camina con propósito">
+    <div class="eyebrow">FotoEvento · Velada</div>
+    <h1>{{ event_name }}</h1>
+    <p class="motto">{{ event_motto }}</p>
+    <p class="verse">{{ event_verse }}</p>
+  </header>
   <main>
     <section>
-      <h2>Compartir fotografías</h2>
-      <p>Selecciona de 1 a 15 fotografías para compartir.</p>
+      <h2>Comparte tus mejores momentos</h2>
+      <div class="accent"></div>
+      <p class="muted">Sube tus fotografías de la velada para que todos puedan recordarla. Puedes seleccionar hasta 15 imágenes a la vez.</p>
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% for category, message in messages %}
           <div class="notice {{ category }}" role="status">{{ message }}</div>
         {% endfor %}
       {% endwith %}
       {% if error %}<div class="notice error" role="alert">{{ error }}</div>{% endif %}
-      <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="uploadForm">
+      <form method="post" action="{{ url_for('upload') }}" enctype="multipart/form-data" id="uploadForm">
         <label for="fotos">Selecciona tus fotografías</label>
-        <input type="file" id="fotos" name="fotos" accept="image/*" multiple required>
-        <button type="submit" id="uploadButton">Compartir fotos</button>
+        <input id="fotos" type="file" name="fotos" accept="image/*" multiple required>
+        <button id="uploadButton" type="submit">Compartir fotografías</button>
       </form>
     </section>
     <section>
-      <h2>Galería del evento</h2>
+      <h2>Galería de recuerdos</h2>
+      <div class="accent"></div>
       {% if photos %}
         <div class="gallery">
           {% for foto in photos %}
-            <a href="{{ foto }}" target="_blank" rel="noopener noreferrer">
-              <img src="{{ foto }}" alt="Fotografía del evento" loading="lazy">
+            <a href="{{ foto }}" target="_blank" rel="noopener noreferrer" aria-label="Abrir fotografía">
+              <img src="{{ foto }}" alt="Fotografía compartida durante la velada" loading="lazy">
             </a>
           {% endfor %}
         </div>
       {% else %}
-        <p>Todavía no hay fotografías para mostrar.</p>
+        <p class="muted">Todavía no hay fotografías para mostrar. ¡Sé el primero en compartir!</p>
       {% endif %}
     </section>
   </main>
+  <footer>FotoEvento · Jóvenes que inspiran, sirven y transforman · 1 Timoteo 4:12</footer>
   <script>
-    document.getElementById('uploadForm').addEventListener('submit', function () {
-      const button = document.getElementById('uploadButton');
-      button.disabled = true;
-      button.textContent = 'Subiendo fotografías...';
+    document.getElementById("uploadForm").addEventListener("submit", function () {
+      const btn = document.getElementById("uploadButton");
+      btn.disabled = true;
+      btn.textContent = "Subiendo fotografías...";
     });
   </script>
 </body>
