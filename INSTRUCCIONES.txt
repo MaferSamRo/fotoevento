@@ -1,17 +1,34 @@
-FOTOEVENTO - ARCHIVOS CORREGIDOS
+FOTOEVENTO — VELADA E11:9
 
-1. En GitHub reemplaza app.py en la raiz del repositorio.
-2. Reemplaza templates/index.html dentro de la carpeta templates.
-3. requirements.txt se puede reemplazar si lo deseas.
-4. Haz Commit changes y espera a que Render muestre Live.
+ARCHIVOS PARA GITHUB:
+app.py                    -> raíz del repositorio
+requirements.txt          -> raíz del repositorio
+templates/index.html      -> carpeta templates
+static/logo-e119.png      -> carpeta static (crear si no existe)
 
-En Render > Environment, configura una de estas opciones:
-A) CLOUDINARY_URL = cloudinary://API_KEY:API_SECRET@CLOUD_NAME
-B) CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY y CLOUDINARY_API_SECRET
+INSTRUCCIONES:
+1. Descomprime este ZIP.
+2. Reemplaza app.py y templates/index.html en GitHub.
+3. Sube static/logo-e119.png en una carpeta static en la raíz.
+4. Conserva requirements.txt o reemplázalo por el incluido.
+5. Haz Commit changes y espera el despliegue Live en Render.
+6. Comprueba galería y subida desde un celular.
 
-No compartas tus credenciales ni las subas a GitHub.
-Se recomienda configurar SECRET_KEY con un valor privado aleatorio.
+CLOUDINARY:
+Se admite CLOUDINARY_URL (cloudinary://API_KEY:API_SECRET@CLOUD_NAME)
+o las variables CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET.
+No publiques contraseñas en GitHub.
+Configura SECRET_KEY en Render con un valor privado y aleatorio.
 
-El formulario utiliza name="fotos", igual que app.py.
-La galeria utiliza directamente las URL de las fotografias.
-Si sigue apareciendo un error, revisa Render > Logs.
+COLORES:
+Negro #101010, gris carbón #353535 y amarillo dorado #F4C542.
+Se interpretó "cenacho" como gris carbón/ceniza; se puede cambiar.
+
+NOMBRE:
+Velada "Una Generación que Responden"
+LEMA:
+Jóvenes que inspiran, sirven y transforman
+VERSÍCULO:
+1 Timoteo 4:12
+
+La eliminación de fotografías sigue realizándose desde Cloudinary.
