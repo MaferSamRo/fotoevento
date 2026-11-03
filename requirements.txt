@@ -1,0 +1,4 @@
+Flask>=3.0,<4
+Pillow>=11,<13
+cloudinary>=1.44,<2
+gunicorn>=22,<24
