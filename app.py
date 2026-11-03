@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "cambiar-en-render-antes-del-evento")
 app.config["MAX_CONTENT_LENGTH"] = 80 * 1024 * 1024
 
-EVENT_NAME = os.environ.get("EVENT_NAME", 'Velada "Una Generación que Responden"')
+EVENT_NAME = os.environ.get("EVENT_NAME", '"Una Generación que Responden"')
 EVENT_MOTTO = "Jóvenes que inspiran, sirven y transforman"
 EVENT_VERSE = "1 Timoteo 4:12"
 FOLDER = os.environ.get("CLOUDINARY_FOLDER", "fotoevento").strip().strip("/")
