@@ -1,0 +1,17 @@
+FOTOEVENTO - ARCHIVOS CORREGIDOS
+
+1. En GitHub reemplaza app.py en la raiz del repositorio.
+2. Reemplaza templates/index.html dentro de la carpeta templates.
+3. requirements.txt se puede reemplazar si lo deseas.
+4. Haz Commit changes y espera a que Render muestre Live.
+
+En Render > Environment, configura una de estas opciones:
+A) CLOUDINARY_URL = cloudinary://API_KEY:API_SECRET@CLOUD_NAME
+B) CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY y CLOUDINARY_API_SECRET
+
+No compartas tus credenciales ni las subas a GitHub.
+Se recomienda configurar SECRET_KEY con un valor privado aleatorio.
+
+El formulario utiliza name="fotos", igual que app.py.
+La galeria utiliza directamente las URL de las fotografias.
+Si sigue apareciendo un error, revisa Render > Logs.
